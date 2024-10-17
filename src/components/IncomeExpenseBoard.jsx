@@ -3,29 +3,67 @@ import Form from "./form/Form";
 import RightSideColumn from "./RightSideColumn";
 
 const IncomeExpenseBoard = () => {
-  const balanceSheet = {
-    category: "",
-    amount: 0,
+  const [tab, setTab] = useState("expense");
+
+  const incomeObject = {
+    tab: "income",
+    category: "Salary",
+    income: 0,
     date: "",
   };
 
-  const [tab, setTab] = useState("expense");
-  const [sheet, setSheet] = useState(balanceSheet);
+  const expenseObject = {
+    tab: "expense",
+    category: "Education",
+    expense: 0,
+    date: "",
+  };
+
+  const balanceSheet = [
+    {
+      id: 1,
+      category: "Salary",
+      amount: 1000,
+      date: "2024-08-27",
+    },
+  ];
+
+  const [incomeSheet, setIncomeSheet] = useState(incomeObject);
+  const [expenseSheet, setExpenseSheet] = useState(expenseObject);
 
   //    const options = { day: 'numeric', month: 'long', year: 'numeric' };
   // const formattedDate = dateObj.toLocaleDateString('en-GB', options);
 
   const handleTabChange = (e) => {
-    setTab(e.target.textContent.toLowerCase());
+    if (tab === "income") {
+      setIncomeSheet(incomeSheet);
+      setTab(e.target.textContent.toLowerCase());
+    }
+    if (tab === "expense") {
+      setExpenseSheet(expenseSheet);
+      setTab(e.target.textContent.toLowerCase());
+    }
   };
 
   const handleForm = (e) => {
     const category = e.target.name;
     let value = e.target.value;
-    setSheet({ ...sheet, [category]: value });
+    if (tab === "income") {
+      if (category === "amount") {
+        setIncomeSheet({ ...incomeSheet, income: value });
+      } else setIncomeSheet({ ...incomeSheet, [category]: value });
+    }
+    if (tab === "expense") {
+      if (category === "amount") {
+        setExpenseSheet({ ...expenseSheet, expense: -value });
+      } else setExpenseSheet({ ...expenseSheet, [category]: value });
+    }
   };
+  console.log(incomeSheet, expenseSheet);
 
-  console.log(sheet);
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <main className="relative mx-auto mt-10 w-full max-w-7xl">
@@ -35,6 +73,9 @@ const IncomeExpenseBoard = () => {
           tab={tab}
           onTabChange={handleTabChange}
           onFormChange={handleForm}
+          incomeSheet={incomeSheet}
+          expenseSheet={expenseSheet}
+          // onFormSubmit={handleFormSubmit}
         />
         {/* Right column */}
         <RightSideColumn />

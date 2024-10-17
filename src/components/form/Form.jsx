@@ -5,7 +5,14 @@ import {
 import InputField from "./InputField";
 import TabButton from "./TabButton";
 
-const Form = ({ tab, onTabChange, onFormChange }) => {
+const Form = ({
+  tab,
+  onTabChange,
+  onFormChange,
+  onFormSubmit,
+  incomeSheet,
+  expenseSheet,
+}) => {
   return (
     <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md">
       <h2 className="text-3xl font-semibold leading-7 text-gray-800 text-center">
@@ -34,6 +41,9 @@ const Form = ({ tab, onTabChange, onFormChange }) => {
               onChange={(e) => {
                 onFormChange(e);
               }}
+              value={
+                tab === "expense" ? expenseSheet.category : incomeSheet.category
+              }
             >
               {(tab === "expense" ? expenseCategories : incomeCategories).map(
                 (singleCategory) => (
@@ -54,6 +64,7 @@ const Form = ({ tab, onTabChange, onFormChange }) => {
             classNames="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
             placeholder="12931"
             onFormChange={onFormChange}
+            tab={tab}
           />
         </div>
 
@@ -71,6 +82,9 @@ const Form = ({ tab, onTabChange, onFormChange }) => {
         <button
           type="submit"
           className="mt-6 rounded-md bg-teal-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 w-full"
+          // onClick={() => {
+          //   tab
+          // }}
         >
           Save
         </button>

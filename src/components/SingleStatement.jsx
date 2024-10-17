@@ -16,7 +16,7 @@ const SingleStatement = () => {
 
         <div className="translate-x-5 group-hover:translate-x-0 opacity-0 group-hover:opacity-100 absolute right-0 top-1/2 -translate-y-1/2 transition-all">
           <button
-            className="hover:text-teal-600"
+            className="hover:text-teal-600 mr-1"
             role="button"
             title="Edit Button"
           >

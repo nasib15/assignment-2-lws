@@ -1,4 +1,11 @@
-const InputField = ({ name, type, classNames, placeholder, onFormChange }) => {
+const InputField = ({
+  name,
+  type,
+  classNames,
+  placeholder,
+  onFormChange,
+  tab,
+}) => {
   return (
     <>
       <label
