@@ -1,25 +1,11 @@
+import {
+  expenseCategories,
+  incomeCategories,
+} from "../../category-list/categoryList";
 import InputField from "./InputField";
 import TabButton from "./TabButton";
 
 const Form = ({ tab, onTabChange, onFormChange }) => {
-  const expenseCategories = [
-    { id: 1, name: "Education" },
-    { id: 2, name: "Food" },
-    { id: 3, name: "Health" },
-    { id: 4, name: "Bill" },
-    { id: 5, name: "Insurance" },
-    { id: 6, name: "Tax" },
-    { id: 7, name: "Transport" },
-    { id: 8, name: "Telephone" },
-  ];
-
-  const incomeCategories = [
-    { id: 1, name: "Salary" },
-    { id: 2, name: "Outsourcing" },
-    { id: 3, name: "Bond" },
-    { id: 4, name: "Dividend" },
-  ];
-
   return (
     <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md">
       <h2 className="text-3xl font-semibold leading-7 text-gray-800 text-center">
@@ -46,7 +32,6 @@ const Form = ({ tab, onTabChange, onFormChange }) => {
               autoComplete="category-name"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
               onChange={(e) => {
-                // onCategoryChange(e.target.value);
                 onFormChange(e);
               }}
             >

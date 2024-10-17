@@ -10,7 +10,6 @@ const IncomeExpenseBoard = () => {
   };
 
   const [tab, setTab] = useState("expense");
-  const [category, setCategory] = useState("");
   const [sheet, setSheet] = useState(balanceSheet);
 
   //    const options = { day: 'numeric', month: 'long', year: 'numeric' };
@@ -23,7 +22,6 @@ const IncomeExpenseBoard = () => {
   const handleForm = (e) => {
     const category = e.target.name;
     let value = e.target.value;
-    console.log(category, value);
     setSheet({ ...sheet, [category]: value });
   };
 
@@ -36,7 +34,6 @@ const IncomeExpenseBoard = () => {
         <Form
           tab={tab}
           onTabChange={handleTabChange}
-          // onCategoryChange={handleCategoryChange}
           onFormChange={handleForm}
         />
         {/* Right column */}
