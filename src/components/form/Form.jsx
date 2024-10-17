@@ -19,7 +19,7 @@ const Form = ({
         Expense Tracker
       </h2>
 
-      <form>
+      <form onSubmit={onFormSubmit}>
         <div className="flex divide-x divide-slate-400/20 overflow-hidden rounded-md bg-white text-[0.8125rem] font-medium leading-5 text-slate-700 shadow-sm ring-1 ring-slate-700/10 mt-6">
           <TabButton tabName="expense" tab={tab} onTabChange={onTabChange} />
           <TabButton tabName="income" tab={tab} onTabChange={onTabChange} />
@@ -82,9 +82,6 @@ const Form = ({
         <button
           type="submit"
           className="mt-6 rounded-md bg-teal-600 px-8 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600 w-full"
-          // onClick={() => {
-          //   tab
-          // }}
         >
           Save
         </button>

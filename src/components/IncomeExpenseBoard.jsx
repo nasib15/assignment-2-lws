@@ -6,6 +6,7 @@ const IncomeExpenseBoard = () => {
   const [tab, setTab] = useState("expense");
 
   const incomeObject = {
+    id: crypto.randomUUID(),
     tab: "income",
     category: "Salary",
     income: 0,
@@ -13,6 +14,7 @@ const IncomeExpenseBoard = () => {
   };
 
   const expenseObject = {
+    id: crypto.randomUUID(),
     tab: "expense",
     category: "Education",
     expense: 0,
@@ -21,15 +23,17 @@ const IncomeExpenseBoard = () => {
 
   const balanceSheet = [
     {
-      id: 1,
+      id: crypto.randomUUID(),
+      tab: "income",
       category: "Salary",
-      amount: 1000,
+      income: 1000,
       date: "2024-08-27",
     },
   ];
 
   const [incomeSheet, setIncomeSheet] = useState(incomeObject);
   const [expenseSheet, setExpenseSheet] = useState(expenseObject);
+  const [sheet, setSheet] = useState(balanceSheet);
 
   //    const options = { day: 'numeric', month: 'long', year: 'numeric' };
   // const formattedDate = dateObj.toLocaleDateString('en-GB', options);
@@ -50,20 +54,26 @@ const IncomeExpenseBoard = () => {
     let value = e.target.value;
     if (tab === "income") {
       if (category === "amount") {
-        setIncomeSheet({ ...incomeSheet, income: value });
+        setIncomeSheet({ ...incomeSheet, income: parseInt(value) });
       } else setIncomeSheet({ ...incomeSheet, [category]: value });
     }
     if (tab === "expense") {
       if (category === "amount") {
-        setExpenseSheet({ ...expenseSheet, expense: -value });
+        setExpenseSheet({ ...expenseSheet, expense: parseInt(value) });
       } else setExpenseSheet({ ...expenseSheet, [category]: value });
     }
   };
-  console.log(incomeSheet, expenseSheet);
+  // console.log(incomeSheet, expenseSheet);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const newData = tab === "income" ? incomeSheet : expenseSheet;
+
+    // Adding new data to the balance sheet
+    setSheet([...sheet, newData]);
   };
+
+  // console.log(sheet);
 
   return (
     <main className="relative mx-auto mt-10 w-full max-w-7xl">
@@ -75,10 +85,10 @@ const IncomeExpenseBoard = () => {
           onFormChange={handleForm}
           incomeSheet={incomeSheet}
           expenseSheet={expenseSheet}
-          // onFormSubmit={handleFormSubmit}
+          onFormSubmit={handleFormSubmit}
         />
         {/* Right column */}
-        <RightSideColumn />
+        <RightSideColumn sheet={sheet} />
       </section>
     </main>
   );
