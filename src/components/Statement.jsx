@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   expenseCategories,
   incomeCategories,
@@ -18,10 +17,19 @@ const CheckboxMenu = ({ title }) => {
   );
 };
 
-const Statement = ({ svg, type, bg }) => {
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [isSortOpen, setIsSortOpen] = useState(false);
-
+const Statement = ({
+  svg,
+  type,
+  bg,
+  isIncomeFilterOpen,
+  isIncomeSortOpen,
+  isExpenseFilterOpen,
+  isExpenseSortOpen,
+  onIncomeSort,
+  onIncomeFilter,
+  onExpenseSort,
+  onExpenseFilter,
+}) => {
   return (
     <div className="border rounded-md relative">
       <div className="flex items-center justify-between gap-2 bg-[#F9FAFB] py-4 px-4 rounded-md">
@@ -45,9 +53,11 @@ const Statement = ({ svg, type, bg }) => {
                 type="button"
                 className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                 id="menu-button"
-                aria-expanded={isSortOpen && "true"}
+                aria-expanded={
+                  (isIncomeSortOpen && "true") || (isExpenseSortOpen && "true")
+                }
                 aria-haspopup="true"
-                onClick={() => setIsSortOpen(!isSortOpen)}
+                onClick={type === "Income" ? onIncomeSort : onExpenseSort}
               >
                 <SortingSVG />
               </button>
@@ -55,7 +65,7 @@ const Statement = ({ svg, type, bg }) => {
 
             <div
               className={`absolute z-10 mt-2 left-5 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                isSortOpen ? "block" : "hidden"
+                isIncomeSortOpen || isExpenseSortOpen ? "block" : "hidden"
               }`}
               role="menu"
               aria-orientation="vertical"
@@ -91,9 +101,11 @@ const Statement = ({ svg, type, bg }) => {
                 type="button"
                 className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-2 py-1 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
                 id="filter-button"
-                aria-expanded={isFilterOpen && "true"}
+                aria-expanded={
+                  (isIncomeSortOpen && "true") || (isExpenseSortOpen && "true")
+                }
                 aria-haspopup="true"
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                onClick={type === "Income" ? onIncomeFilter : onExpenseFilter}
               >
                 <FilterSVG />
               </button>
@@ -101,7 +113,7 @@ const Statement = ({ svg, type, bg }) => {
 
             <div
               className={`absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none ${
-                isFilterOpen ? "block" : "hidden"
+                isIncomeFilterOpen || isExpenseFilterOpen ? "block" : "hidden"
               }`}
               role="menu"
               aria-orientation="vertical"
