@@ -1,52 +1,24 @@
-const Form = ({ tab, onTabChange }) => {
-  const InputField = ({ name, type, classNames, placeholder }) => {
-    return (
-      <>
-        <label
-          htmlFor={name}
-          className="block text-sm font-medium leading-6 text-gray-900"
-        >
-          {name[0].toUpperCase() + name.slice(1)}
-        </label>
-        <div className="mt-2">
-          <input
-            type={type}
-            name={name}
-            id={name}
-            autoComplete="off"
-            placeholder={placeholder}
-            className={classNames}
-          />
-        </div>
-      </>
-    );
-  };
+import InputField from "./InputField";
+import TabButton from "./TabButton";
 
-  const TabButton = ({ tabName }) => {
-    return (
-      <div
-        className={`cursor-pointer text-center flex-1 px-4 py-2 hover:bg-slate-50 hover:text-slate-900 ${
-          tab === tabName && "active"
-        }`}
-        onClick={onTabChange}
-      >
-        {tabName[0].toUpperCase() + tabName.slice(1)}
-      </div>
-    );
-  };
-
+const Form = ({ tab, onTabChange, onFormChange }) => {
   const expenseCategories = [
-    "Education",
-    "Food",
-    "Health",
-    "Bill",
-    "Insurance",
-    "Tax",
-    "Transport",
-    "Telephone",
+    { id: 1, name: "Education" },
+    { id: 2, name: "Food" },
+    { id: 3, name: "Health" },
+    { id: 4, name: "Bill" },
+    { id: 5, name: "Insurance" },
+    { id: 6, name: "Tax" },
+    { id: 7, name: "Transport" },
+    { id: 8, name: "Telephone" },
   ];
 
-  const incomeCategories = ["Salary", "Outsourcing", "Bond", "Dividend"];
+  const incomeCategories = [
+    { id: 1, name: "Salary" },
+    { id: 2, name: "Outsourcing" },
+    { id: 3, name: "Bond" },
+    { id: 4, name: "Dividend" },
+  ];
 
   return (
     <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md">
@@ -56,8 +28,8 @@ const Form = ({ tab, onTabChange }) => {
 
       <form>
         <div className="flex divide-x divide-slate-400/20 overflow-hidden rounded-md bg-white text-[0.8125rem] font-medium leading-5 text-slate-700 shadow-sm ring-1 ring-slate-700/10 mt-6">
-          <TabButton tabName="expense" />
-          <TabButton tabName="income" />
+          <TabButton tabName="expense" tab={tab} onTabChange={onTabChange} />
+          <TabButton tabName="income" tab={tab} onTabChange={onTabChange} />
         </div>
 
         <div className="mt-3">
@@ -73,12 +45,18 @@ const Form = ({ tab, onTabChange }) => {
               name="category"
               autoComplete="category-name"
               className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
+              onChange={(e) => {
+                // onCategoryChange(e.target.value);
+                onFormChange(e);
+              }}
             >
-              {expenseCategories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
+              {(tab === "expense" ? expenseCategories : incomeCategories).map(
+                (singleCategory) => (
+                  <option key={singleCategory.id} value={singleCategory.name}>
+                    {singleCategory.name}
+                  </option>
+                )
+              )}
             </select>
           </div>
         </div>
@@ -90,6 +68,7 @@ const Form = ({ tab, onTabChange }) => {
             type="number"
             classNames="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
             placeholder="12931"
+            onFormChange={onFormChange}
           />
         </div>
 
@@ -100,6 +79,7 @@ const Form = ({ tab, onTabChange }) => {
             type="date"
             classNames="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
             placeholder="12931"
+            onFormChange={onFormChange}
           />
         </div>
 
