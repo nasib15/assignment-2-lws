@@ -54,6 +54,8 @@ const IncomeExpenseBoard = () => {
   const [incomeSheet, setIncomeSheet] = useState(incomeDatasheet);
   const [expenseSheet, setExpenseSheet] = useState(expenseDatasheet);
 
+  const [isAdd, setIsAdd] = useState(true);
+
   // console.log(singleIncomeStatement, singleExpenseStatement);
 
   // Changing the tab on click
@@ -88,20 +90,38 @@ const IncomeExpenseBoard = () => {
     }
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = (e, isAdd) => {
     e.preventDefault();
-    const id = crypto.randomUUID();
-    const data =
-      tab === "income" ? singleIncomeStatement : singleExpenseStatement;
-    const newData = { ...data, id };
-    console.log(newData);
-    // console.log(incomeSheet, expenseSheet);
+    if (isAdd) {
+      const id = crypto.randomUUID();
+      const data =
+        tab === "income" ? singleIncomeStatement : singleExpenseStatement;
+      const newData = { ...data, id };
+      console.log(newData);
+      // console.log(incomeSheet, expenseSheet);
 
-    // Adding new data to the balance incomeSheet based on the tab
-    if (tab === "income") {
-      setIncomeSheet([...incomeSheet, newData]);
+      // Adding new data to the balance incomeSheet based on the tab
+      if (tab === "income") {
+        setIncomeSheet([...incomeSheet, newData]);
+      } else {
+        setExpenseSheet([...expenseSheet, newData]);
+      }
     } else {
-      setExpenseSheet([...expenseSheet, newData]);
+      // Updating the existing data in the incomeSheet based on the tab
+      if (tab === "income") {
+        const updatedIncomeSheet = incomeSheet.map((item) =>
+          item.id === singleIncomeStatement.id ? singleIncomeStatement : item
+        );
+        console.log(updatedIncomeSheet);
+        setIncomeSheet(updatedIncomeSheet);
+      } else {
+        // Updating the existing data in the expenseSheet based on the tab
+        const updatedExpenseSheet = expenseSheet.map((item) =>
+          item.id === singleExpenseStatement.id ? singleExpenseStatement : item
+        );
+        console.log(updatedExpenseSheet);
+        setExpenseSheet(updatedExpenseSheet);
+      }
     }
   };
 
@@ -151,6 +171,7 @@ const IncomeExpenseBoard = () => {
   // Edit the data from the datasheet
   const handleEdit = (id, category) => {
     console.log(id, category);
+    setIsAdd(false);
     if (category === "income") {
       const data = incomeSheet.find((item) => item.id === id);
       console.log(data);
@@ -203,6 +224,7 @@ const IncomeExpenseBoard = () => {
           singleIncomeStatement={singleIncomeStatement}
           singleExpenseStatement={singleExpenseStatement}
           onFormSubmit={handleFormSubmit}
+          isAdd={isAdd}
         />
         {/* Right column */}
         <RightSideColumn
