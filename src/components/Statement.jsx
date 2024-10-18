@@ -31,6 +31,8 @@ const Statement = ({
   onExpenseFilter,
   incomeSheet,
   expenseSheet,
+  onSort,
+  onDelete,
 }) => {
   return (
     <div className="border rounded-md relative">
@@ -81,6 +83,9 @@ const Statement = ({
                   role="menuitem"
                   tabIndex="-1"
                   id="menu-item-0"
+                  onClick={(event) =>
+                    onSort(event, isIncomeSortOpen, isExpenseSortOpen, "l2h")
+                  }
                 >
                   Low to High
                 </a>
@@ -90,6 +95,9 @@ const Statement = ({
                   role="menuitem"
                   tabIndex="-1"
                   id="menu-item-0"
+                  onClick={(event) =>
+                    onSort(event, isIncomeSortOpen, isExpenseSortOpen, "h2l")
+                  }
                 >
                   High to Low
                 </a>
@@ -140,10 +148,18 @@ const Statement = ({
       <div className="p-4 divide-y">
         {type === "Income"
           ? incomeSheet.map((statement) => (
-              <SingleStatement key={statement.id} {...statement} />
+              <SingleStatement
+                key={statement.id}
+                {...statement}
+                onDelete={onDelete}
+              />
             ))
           : expenseSheet.map((statement) => (
-              <SingleStatement key={statement.id} {...statement} />
+              <SingleStatement
+                key={statement.id}
+                {...statement}
+                onDelete={onDelete}
+              />
             ))}
       </div>
     </div>

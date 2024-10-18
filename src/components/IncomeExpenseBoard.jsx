@@ -90,14 +90,72 @@ const IncomeExpenseBoard = () => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const newData =
+    const id = crypto.randomUUID();
+    const data =
       tab === "income" ? singleIncomeStatement : singleExpenseStatement;
+    const newData = { ...data, id };
+    console.log(newData);
+    // console.log(incomeSheet, expenseSheet);
 
     // Adding new data to the balance incomeSheet based on the tab
     if (tab === "income") {
       setIncomeSheet([...incomeSheet, newData]);
     } else {
       setExpenseSheet([...expenseSheet, newData]);
+    }
+  };
+
+  // Sorting the datasheet based on the income or expense
+  const handleSort = (isIncomeMenuOpen, isExpenseMenuOpen, sortingType) => {
+    console.log("sorting");
+    // if (isIncomeMenuOpen) {
+    //   if (sortingType === "l2h") {
+    //     const sortedData = [...incomeSheet].sort((a, b) => a.income - b.income);
+    //     console.log(sortedData);
+    //     setIncomeSheet(sortedData);
+    //   }
+    //   if (sortingType === "h2l") {
+    //     const sortedData = [...incomeSheet].sort((a, b) => b.income - a.income);
+    //     console.log(sortedData);
+    //     setIncomeSheet(sortedData);
+    //   }
+    // }
+    // if (isExpenseMenuOpen) {
+    //   if (sortingType === "l2h") {
+    //     const sortedData = [...expenseSheet].sort(
+    //       (a, b) => a.expense - b.expense
+    //     );
+    //     console.log(sortedData);
+    //     setExpenseSheet(sortedData);
+    //   }
+    //   if (sortingType === "h2l") {
+    //     const sortedData = [...expenseSheet].sort(
+    //       (a, b) => b.expense - a.expense
+    //     );
+    //     console.log(sortedData);
+    //     setExpenseSheet(sortedData);
+    //   }
+    // }
+  };
+
+  const handleSortClick = (
+    event,
+    isIncomeMenuOpen,
+    isExpenseMenuOpen,
+    sortingType
+  ) => {
+    event.stopPropagation();
+    handleSort(isIncomeMenuOpen, isExpenseMenuOpen, sortingType);
+  };
+
+  const handleDelete = (id, category) => {
+    if (category === "income") {
+      const newIncomeSheet = incomeSheet.filter((item) => item.id !== id);
+      setIncomeSheet(newIncomeSheet);
+    }
+    if (category === "expense") {
+      const newExpenseSheet = expenseSheet.filter((item) => item.id !== id);
+      setExpenseSheet(newExpenseSheet);
     }
   };
 
@@ -117,6 +175,8 @@ const IncomeExpenseBoard = () => {
         <RightSideColumn
           incomeSheet={incomeSheet}
           expenseSheet={expenseSheet}
+          onSort={handleSortClick}
+          onDelete={handleDelete}
         />
       </section>
     </main>

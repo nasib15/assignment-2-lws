@@ -1,6 +1,21 @@
 import { DeleteSVG, EditSVG } from "./SVG";
 
-const SingleStatement = ({ tab, category, date, income = 0, expense = 0 }) => {
+const SingleStatement = ({
+  id,
+  tab,
+  category,
+  date,
+  income = 0,
+  expense = 0,
+  onDelete,
+}) => {
+  const confirmDelete = () => {
+    const isConfirmed = window.confirm("Are you sure you want to delete?");
+    if (isConfirmed) {
+      onDelete(id, tab);
+    }
+  };
+
   return (
     <div className="flex justify-between items-center py-2 relative group cursor-pointer">
       <div>
@@ -29,7 +44,12 @@ const SingleStatement = ({ tab, category, date, income = 0, expense = 0 }) => {
             <EditSVG />
           </button>
 
-          <button className="hover:text-red-600" role="button" title="Delete">
+          <button
+            className="hover:text-red-600"
+            role="button"
+            title="Delete"
+            onClick={confirmDelete}
+          >
             <DeleteSVG />
           </button>
         </div>
