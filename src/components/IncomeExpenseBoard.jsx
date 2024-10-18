@@ -56,8 +56,6 @@ const IncomeExpenseBoard = () => {
 
   const [isAdd, setIsAdd] = useState(true);
 
-  // console.log(singleIncomeStatement, singleExpenseStatement);
-
   // Changing the tab on click
   const handleTabChange = (e) => {
     if (tab === "income") {
@@ -97,8 +95,6 @@ const IncomeExpenseBoard = () => {
       const data =
         tab === "income" ? singleIncomeStatement : singleExpenseStatement;
       const newData = { ...data, id };
-      console.log(newData);
-      // console.log(incomeSheet, expenseSheet);
 
       // Adding new data to the balance incomeSheet based on the tab
       if (tab === "income") {
@@ -112,14 +108,12 @@ const IncomeExpenseBoard = () => {
         const updatedIncomeSheet = incomeSheet.map((item) =>
           item.id === singleIncomeStatement.id ? singleIncomeStatement : item
         );
-        console.log(updatedIncomeSheet);
         setIncomeSheet(updatedIncomeSheet);
       } else {
         // Updating the existing data in the expenseSheet based on the tab
         const updatedExpenseSheet = expenseSheet.map((item) =>
           item.id === singleExpenseStatement.id ? singleExpenseStatement : item
         );
-        console.log(updatedExpenseSheet);
         setExpenseSheet(updatedExpenseSheet);
       }
     }
@@ -127,35 +121,31 @@ const IncomeExpenseBoard = () => {
 
   // Sorting the datasheet based on the income or expense
   const handleSort = (isIncomeMenuOpen, isExpenseMenuOpen, sortingType) => {
-    console.log("sorting");
-    // if (isIncomeMenuOpen) {
-    //   if (sortingType === "l2h") {
-    //     const sortedData = [...incomeSheet].sort((a, b) => a.income - b.income);
-    //     console.log(sortedData);
-    //     setIncomeSheet(sortedData);
-    //   }
-    //   if (sortingType === "h2l") {
-    //     const sortedData = [...incomeSheet].sort((a, b) => b.income - a.income);
-    //     console.log(sortedData);
-    //     setIncomeSheet(sortedData);
-    //   }
-    // }
-    // if (isExpenseMenuOpen) {
-    //   if (sortingType === "l2h") {
-    //     const sortedData = [...expenseSheet].sort(
-    //       (a, b) => a.expense - b.expense
-    //     );
-    //     console.log(sortedData);
-    //     setExpenseSheet(sortedData);
-    //   }
-    //   if (sortingType === "h2l") {
-    //     const sortedData = [...expenseSheet].sort(
-    //       (a, b) => b.expense - a.expense
-    //     );
-    //     console.log(sortedData);
-    //     setExpenseSheet(sortedData);
-    //   }
-    // }
+    console.log(isIncomeMenuOpen, isExpenseMenuOpen, sortingType);
+    if (isIncomeMenuOpen) {
+      if (sortingType === "l2h") {
+        const sortedData = [...incomeSheet].sort((a, b) => a.income - b.income);
+        setIncomeSheet(sortedData);
+      }
+      if (sortingType === "h2l") {
+        const sortedData = [...incomeSheet].sort((a, b) => b.income - a.income);
+        setIncomeSheet(sortedData);
+      }
+    }
+    if (isExpenseMenuOpen) {
+      if (sortingType === "l2h") {
+        const sortedData = [...expenseSheet].sort(
+          (a, b) => a.expense - b.expense
+        );
+        setExpenseSheet(sortedData);
+      }
+      if (sortingType === "h2l") {
+        const sortedData = [...expenseSheet].sort(
+          (a, b) => b.expense - a.expense
+        );
+        setExpenseSheet(sortedData);
+      }
+    }
   };
 
   const handleSortClick = (
@@ -170,35 +160,18 @@ const IncomeExpenseBoard = () => {
 
   // Edit the data from the datasheet
   const handleEdit = (id, category) => {
-    console.log(id, category);
     setIsAdd(false);
     if (category === "income") {
       const data = incomeSheet.find((item) => item.id === id);
-      console.log(data);
       setSingleIncomeStatement({ ...data });
       setTab("income");
-      console.log(singleIncomeStatement);
     }
 
     if (category === "expense") {
       const data = expenseSheet.find((item) => item.id === id);
-      console.log(data);
       setSingleExpenseStatement({ ...data });
       setTab("expense");
-      console.log(singleExpenseStatement);
     }
-    // if (category === "income") {
-    //   const editedIncomeSheet = incomeSheet.map((item) =>
-    //     item.id === id ? { ...item, income: 5000 } : item
-    //   );
-    //   setIncomeSheet(editedIncomeSheet);
-    // }
-    // if (category === "expense") {
-    //   const editedExpenseSheet = expenseSheet.map((item) =>
-    //     item.id === id ? { ...item, expense: 500 } : item
-    //   );
-    //   setExpenseSheet(editedExpenseSheet);
-    // }
   };
 
   // Deleting the data from the datasheet
