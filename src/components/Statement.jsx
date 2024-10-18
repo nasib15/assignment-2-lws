@@ -5,12 +5,20 @@ import {
 import SingleStatement from "./SingleStatement";
 import { FilterSVG, SortingSVG } from "./SVG";
 
-const CheckboxMenu = ({ title }) => {
+const CheckboxMenu = ({
+  title,
+  onFilter,
+  isIncomeFilterOpen,
+  isExpenseFilterOpen,
+}) => {
   return (
     <label className="inline-flex items-center px-4 py-2 text-sm text-gray-700">
       <input
         type="checkbox"
         className="form-checkbox h-4 w-4 rounded-md text-gray-600"
+        onChange={(e) =>
+          onFilter(e, title, isIncomeFilterOpen, isExpenseFilterOpen)
+        }
       />
       <span className="ml-2">{title}</span>
     </label>
@@ -34,6 +42,7 @@ const Statement = ({
   onSort,
   onDelete,
   onEdit,
+  onFilter,
 }) => {
   return (
     <div className="border rounded-md relative">
@@ -135,10 +144,22 @@ const Statement = ({
               <div className="py-1" role="none">
                 {type === "Expense"
                   ? expenseCategories.map((category) => (
-                      <CheckboxMenu key={category.id} title={category.name} />
+                      <CheckboxMenu
+                        key={category.id}
+                        title={category.name}
+                        onFilter={onFilter}
+                        isIncomeFilterOpen={isIncomeFilterOpen}
+                        isExpenseFilterOpen={isExpenseFilterOpen}
+                      />
                     ))
                   : incomeCategories.map((category) => (
-                      <CheckboxMenu key={category.id} title={category.name} />
+                      <CheckboxMenu
+                        key={category.id}
+                        title={category.name}
+                        onFilter={onFilter}
+                        isIncomeFilterOpen={isIncomeFilterOpen}
+                        isExpenseFilterOpen={isExpenseFilterOpen}
+                      />
                     ))}
               </div>
             </div>

@@ -9,6 +9,7 @@ const RightSideColumn = ({
   onSort,
   onDelete,
   onEdit,
+  onFilter,
 }) => {
   const [isIncomeFilterOpen, setIsIncomeFilterOpen] = useState(false);
   const [isIncomeSortOpen, setIsIncomeSortOpen] = useState(false);
@@ -60,6 +61,7 @@ const RightSideColumn = ({
           onSort={onSort}
           onDelete={onDelete}
           onEdit={onEdit}
+          onFilter={onFilter}
         />
         <Statement
           svg={<ExpenseSVG />}
@@ -73,6 +75,7 @@ const RightSideColumn = ({
           onSort={onSort}
           onDelete={onDelete}
           onEdit={onEdit}
+          onFilter={onFilter}
         />
       </div>
     </div>

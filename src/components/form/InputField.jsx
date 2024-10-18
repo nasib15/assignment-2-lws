@@ -9,12 +9,9 @@ const InputField = ({
   singleExpenseStatement,
 }) => {
   const getValue = () => {
-    console.log(name);
     if (name === "income") {
-      console.log(singleIncomeStatement[name]);
       return singleIncomeStatement[name];
     } else if (name === "expense") {
-      console.log(singleExpenseStatement[name]);
       return singleExpenseStatement[name];
     }
   };

@@ -54,7 +54,14 @@ const IncomeExpenseBoard = () => {
   const [incomeSheet, setIncomeSheet] = useState(incomeDatasheet);
   const [expenseSheet, setExpenseSheet] = useState(expenseDatasheet);
 
+  // State to store the original data
+  const [originalIncomeSheet, setOriginalIncomeSheet] =
+    useState(incomeDatasheet);
+  const [originalExpenseSheet, setOriginalExpenseSheet] =
+    useState(expenseDatasheet);
+
   const [isAdd, setIsAdd] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState([]);
 
   // Changing the tab on click
   const handleTabChange = (e) => {
@@ -99,8 +106,10 @@ const IncomeExpenseBoard = () => {
       // Adding new data to the balance incomeSheet based on the tab
       if (tab === "income") {
         setIncomeSheet([...incomeSheet, newData]);
+        setOriginalIncomeSheet([...originalIncomeSheet, newData]);
       } else {
         setExpenseSheet([...expenseSheet, newData]);
+        setOriginalExpenseSheet([...originalExpenseSheet, newData]);
       }
     } else {
       // Updating the existing data in the incomeSheet based on the tab
@@ -109,19 +118,24 @@ const IncomeExpenseBoard = () => {
           item.id === singleIncomeStatement.id ? singleIncomeStatement : item
         );
         setIncomeSheet(updatedIncomeSheet);
+        setOriginalIncomeSheet(updatedIncomeSheet);
+        setSingleIncomeStatement(incomeObject);
+        setIsAdd(true);
       } else {
         // Updating the existing data in the expenseSheet based on the tab
         const updatedExpenseSheet = expenseSheet.map((item) =>
           item.id === singleExpenseStatement.id ? singleExpenseStatement : item
         );
         setExpenseSheet(updatedExpenseSheet);
+        setOriginalExpenseSheet(updatedExpenseSheet);
+        setSingleExpenseStatement(expenseObject);
+        setIsAdd(true);
       }
     }
   };
 
   // Sorting the datasheet based on the income or expense
   const handleSort = (isIncomeMenuOpen, isExpenseMenuOpen, sortingType) => {
-    console.log(isIncomeMenuOpen, isExpenseMenuOpen, sortingType);
     if (isIncomeMenuOpen) {
       if (sortingType === "l2h") {
         const sortedData = [...incomeSheet].sort((a, b) => a.income - b.income);
@@ -156,6 +170,60 @@ const IncomeExpenseBoard = () => {
   ) => {
     event.stopPropagation();
     handleSort(isIncomeMenuOpen, isExpenseMenuOpen, sortingType);
+  };
+
+  // Filtering the datasheet based on the category
+  const handleFilter = (
+    e,
+    category,
+    isIncomeFilterOpen,
+    isExpenseFilterOpen
+  ) => {
+    if (isIncomeFilterOpen) {
+      setSelectedCategory((prevSelectedCategory) => {
+        let updatedCategories;
+        if (prevSelectedCategory.includes(category)) {
+          // toggle the checkbox state
+          updatedCategories = prevSelectedCategory.filter(
+            (cat) => cat !== category
+          );
+        } else {
+          updatedCategories = [...prevSelectedCategory, category];
+        }
+
+        const filteredData = updatedCategories.length
+          ? originalIncomeSheet.filter((item) =>
+              updatedCategories.includes(item.category)
+            )
+          : originalIncomeSheet;
+
+        setIncomeSheet(filteredData);
+        return updatedCategories;
+      });
+    }
+
+    if (isExpenseFilterOpen) {
+      setSelectedCategory((prevSelectedCategory) => {
+        let updatedCategories;
+        if (prevSelectedCategory.includes(category)) {
+          // toggle the checkbox state
+          updatedCategories = prevSelectedCategory.filter(
+            (cat) => cat !== category
+          );
+        } else {
+          updatedCategories = [...prevSelectedCategory, category];
+        }
+
+        const filteredData = updatedCategories.length
+          ? originalExpenseSheet.filter((item) =>
+              updatedCategories.includes(item.category)
+            )
+          : originalExpenseSheet;
+
+        setExpenseSheet(filteredData);
+        return updatedCategories;
+      });
+    }
   };
 
   // Edit the data from the datasheet
@@ -206,6 +274,7 @@ const IncomeExpenseBoard = () => {
           onSort={handleSortClick}
           onDelete={handleDelete}
           onEdit={handleEdit}
+          onFilter={handleFilter}
         />
       </section>
     </main>
