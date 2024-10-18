@@ -1,4 +1,4 @@
-const BalanceSheet = ({ sheet }) => {
+const BalanceSheet = ({ incomeSheet, expenseSheet }) => {
   const Balance = ({ amount, description }) => {
     return (
       <div className="bg-[#F9FAFB] flex lg:max-w-xs flex-col px-4 py-4">
@@ -14,13 +14,14 @@ const BalanceSheet = ({ sheet }) => {
     );
   };
 
-  const totalIncome = sheet.reduce((acc, curr) => acc + (curr.income || 0), 0);
-  const totalExpense = sheet.reduce(
+  const totalIncome = incomeSheet.reduce(
+    (acc, curr) => acc + (curr.income || 0),
+    0
+  );
+  const totalExpense = expenseSheet.reduce(
     (acc, curr) => acc + (curr.expense || 0),
     0
   );
-
-  console.log(sheet);
 
   return (
     <div className="bg-white">

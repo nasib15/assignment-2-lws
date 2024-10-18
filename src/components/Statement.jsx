@@ -29,6 +29,8 @@ const Statement = ({
   onIncomeFilter,
   onExpenseSort,
   onExpenseFilter,
+  incomeSheet,
+  expenseSheet,
 }) => {
   return (
     <div className="border rounded-md relative">
@@ -136,7 +138,13 @@ const Statement = ({
       </div>
 
       <div className="p-4 divide-y">
-        <SingleStatement />
+        {type === "Income"
+          ? incomeSheet.map((statement) => (
+              <SingleStatement key={statement.id} {...statement} />
+            ))
+          : expenseSheet.map((statement) => (
+              <SingleStatement key={statement.id} {...statement} />
+            ))}
       </div>
     </div>
   );

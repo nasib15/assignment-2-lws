@@ -10,8 +10,8 @@ const Form = ({
   onTabChange,
   onFormChange,
   onFormSubmit,
-  incomeSheet,
-  expenseSheet,
+  singleIncomeStatement,
+  singleExpenseStatement,
 }) => {
   return (
     <div className="p-6 py-8 bg-[#F9FAFB] border rounded-md">
@@ -42,7 +42,9 @@ const Form = ({
                 onFormChange(e);
               }}
               value={
-                tab === "expense" ? expenseSheet.category : incomeSheet.category
+                tab === "expense"
+                  ? singleExpenseStatement.category
+                  : singleIncomeStatement.category
               }
             >
               {(tab === "expense" ? expenseCategories : incomeCategories).map(

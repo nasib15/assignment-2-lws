@@ -3,7 +3,7 @@ import BalanceSheet from "./BalanceSheet";
 import Statement from "./Statement";
 import { ExpenseSVG, IncomeSVG } from "./SVG";
 
-const RightSideColumn = ({ sheet }) => {
+const RightSideColumn = ({ incomeSheet, expenseSheet }) => {
   const [isIncomeFilterOpen, setIsIncomeFilterOpen] = useState(false);
   const [isIncomeSortOpen, setIsIncomeSortOpen] = useState(false);
   const [isExpenseFilterOpen, setIsExpenseFilterOpen] = useState(false);
@@ -40,12 +40,13 @@ const RightSideColumn = ({ sheet }) => {
 
   return (
     <div className="lg:col-span-2">
-      <BalanceSheet sheet={sheet} />
+      <BalanceSheet incomeSheet={incomeSheet} expenseSheet={expenseSheet} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-8">
         <Statement
           svg={<IncomeSVG />}
           type={"Income"}
           bg={"bg-teal-600"}
+          incomeSheet={incomeSheet}
           isIncomeFilterOpen={isIncomeFilterOpen}
           isIncomeSortOpen={isIncomeSortOpen}
           onIncomeSort={handleIncomeSort}
@@ -55,6 +56,7 @@ const RightSideColumn = ({ sheet }) => {
           svg={<ExpenseSVG />}
           type={"Expense"}
           bg={"bg-red-600"}
+          expenseSheet={expenseSheet}
           isExpenseFilterOpen={isExpenseFilterOpen}
           isExpenseSortOpen={isExpenseSortOpen}
           onExpenseSort={handleExpenseSort}

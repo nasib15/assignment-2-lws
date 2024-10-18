@@ -21,7 +21,7 @@ const IncomeExpenseBoard = () => {
     date: "",
   };
 
-  const balanceSheet = [
+  const incomeDatasheet = [
     {
       id: crypto.randomUUID(),
       tab: "income",
@@ -31,49 +31,93 @@ const IncomeExpenseBoard = () => {
     },
   ];
 
-  const [incomeSheet, setIncomeSheet] = useState(incomeObject);
-  const [expenseSheet, setExpenseSheet] = useState(expenseObject);
-  const [sheet, setSheet] = useState(balanceSheet);
+  const expenseDatasheet = [
+    {
+      id: crypto.randomUUID(),
+      tab: "expense",
+      category: "Education",
+      expense: 100,
+      date: "2024-08-10",
+    },
+  ];
 
-  //    const options = { day: 'numeric', month: 'long', year: 'numeric' };
-  // const formattedDate = dateObj.toLocaleDateString('en-GB', options);
+  // State for the form data based on the tab
+  const [singleIncomeStatement, setSingleIncomeStatement] =
+    useState(incomeObject);
+  const [singleExpenseStatement, setSingleExpenseStatement] =
+    useState(expenseObject);
 
+  // Maintaining different datasheets for income and expense
+  const [incomeSheet, setIncomeSheet] = useState(incomeDatasheet);
+  const [expenseSheet, setExpenseSheet] = useState(expenseDatasheet);
+
+  // Changing the tab on click
   const handleTabChange = (e) => {
     if (tab === "income") {
-      setIncomeSheet(incomeSheet);
+      setSingleIncomeStatement({
+        ...singleIncomeStatement,
+        income: 0,
+        date: "",
+      });
       setTab(e.target.textContent.toLowerCase());
     }
     if (tab === "expense") {
-      setExpenseSheet(expenseSheet);
+      setSingleExpenseStatement({
+        ...singleExpenseStatement,
+        expense: 0,
+        date: "",
+      });
       setTab(e.target.textContent.toLowerCase());
     }
   };
 
+  // Updating the form data on change
   const handleForm = (e) => {
     const category = e.target.name;
     let value = e.target.value;
     if (tab === "income") {
       if (category === "amount") {
-        setIncomeSheet({ ...incomeSheet, income: parseInt(value) });
-      } else setIncomeSheet({ ...incomeSheet, [category]: value });
+        setSingleIncomeStatement({
+          ...singleIncomeStatement,
+          income: parseInt(value),
+        });
+      } else
+        setSingleIncomeStatement({
+          ...singleIncomeStatement,
+          [category]: value,
+        });
     }
     if (tab === "expense") {
       if (category === "amount") {
-        setExpenseSheet({ ...expenseSheet, expense: parseInt(value) });
-      } else setExpenseSheet({ ...expenseSheet, [category]: value });
+        setSingleExpenseStatement({
+          ...singleExpenseStatement,
+          expense: parseInt(value),
+        });
+      } else
+        setSingleExpenseStatement({
+          ...singleExpenseStatement,
+          [category]: value,
+        });
     }
   };
-  // console.log(incomeSheet, expenseSheet);
+  // console.log(singleIncomeStatement, singleExpenseStatement);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    const newData = tab === "income" ? incomeSheet : expenseSheet;
+    const newData =
+      tab === "income" ? singleIncomeStatement : singleExpenseStatement;
 
-    // Adding new data to the balance sheet
-    setSheet([...sheet, newData]);
+    // Adding new data to the balance incomeSheet based on the tab
+    if (tab === "income") {
+      setIncomeSheet([...incomeSheet, newData]);
+      // e.form.reset();
+    } else {
+      setExpenseSheet([...expenseSheet, newData]);
+      // e.form.reset();
+    }
   };
 
-  // console.log(sheet);
+  // console.log(incomeSheet);
 
   return (
     <main className="relative mx-auto mt-10 w-full max-w-7xl">
@@ -83,12 +127,15 @@ const IncomeExpenseBoard = () => {
           tab={tab}
           onTabChange={handleTabChange}
           onFormChange={handleForm}
-          incomeSheet={incomeSheet}
-          expenseSheet={expenseSheet}
+          singleIncomeStatement={singleIncomeStatement}
+          singleExpenseStatement={singleExpenseStatement}
           onFormSubmit={handleFormSubmit}
         />
         {/* Right column */}
-        <RightSideColumn sheet={sheet} />
+        <RightSideColumn
+          incomeSheet={incomeSheet}
+          expenseSheet={expenseSheet}
+        />
       </section>
     </main>
   );
