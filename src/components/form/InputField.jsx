@@ -5,7 +5,17 @@ const InputField = ({
   placeholder,
   onFormChange,
   tab,
+  singleIncomeStatement,
+  singleExpenseStatement,
 }) => {
+  const getValue = () => {
+    if (name === "income") {
+      return singleIncomeStatement[name];
+    } else if (name === "expense") {
+      return singleExpenseStatement[name];
+    }
+  };
+
   return (
     <>
       <label
@@ -25,6 +35,12 @@ const InputField = ({
           onChange={(e) => {
             onFormChange(e);
           }}
+          value={
+            name === "date"
+              ? singleIncomeStatement[name] || singleExpenseStatement[name]
+              : getValue()
+          }
+          required
         />
       </div>
     </>

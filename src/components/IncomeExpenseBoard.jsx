@@ -3,13 +3,15 @@ import Form from "./form/Form";
 import RightSideColumn from "./RightSideColumn";
 
 const IncomeExpenseBoard = () => {
+  // Initial state for the tab
   const [tab, setTab] = useState("expense");
 
+  // Initial state for the form data
   const incomeObject = {
     id: crypto.randomUUID(),
     tab: "income",
     category: "Salary",
-    income: 0,
+    income: "",
     date: "",
   };
 
@@ -17,10 +19,11 @@ const IncomeExpenseBoard = () => {
     id: crypto.randomUUID(),
     tab: "expense",
     category: "Education",
-    expense: 0,
+    expense: "",
     date: "",
   };
 
+  // Initial datasheets for income and expense
   const incomeDatasheet = [
     {
       id: crypto.randomUUID(),
@@ -51,22 +54,16 @@ const IncomeExpenseBoard = () => {
   const [incomeSheet, setIncomeSheet] = useState(incomeDatasheet);
   const [expenseSheet, setExpenseSheet] = useState(expenseDatasheet);
 
+  // console.log(singleIncomeStatement, singleExpenseStatement);
+
   // Changing the tab on click
   const handleTabChange = (e) => {
     if (tab === "income") {
-      setSingleIncomeStatement({
-        ...singleIncomeStatement,
-        income: 0,
-        date: "",
-      });
+      setSingleIncomeStatement(incomeObject);
       setTab(e.target.textContent.toLowerCase());
     }
     if (tab === "expense") {
-      setSingleExpenseStatement({
-        ...singleExpenseStatement,
-        expense: 0,
-        date: "",
-      });
+      setSingleExpenseStatement(expenseObject);
       setTab(e.target.textContent.toLowerCase());
     }
   };
@@ -75,32 +72,21 @@ const IncomeExpenseBoard = () => {
   const handleForm = (e) => {
     const category = e.target.name;
     let value = e.target.value;
+
+    // Converting the value to integer if the category is income or expense
+    if (category === "income" || category === "expense") {
+      value = parseInt(value);
+    }
     if (tab === "income") {
-      if (category === "amount") {
-        setSingleIncomeStatement({
-          ...singleIncomeStatement,
-          income: parseInt(value),
-        });
-      } else
-        setSingleIncomeStatement({
-          ...singleIncomeStatement,
-          [category]: value,
-        });
+      setSingleIncomeStatement({ ...singleIncomeStatement, [category]: value });
     }
     if (tab === "expense") {
-      if (category === "amount") {
-        setSingleExpenseStatement({
-          ...singleExpenseStatement,
-          expense: parseInt(value),
-        });
-      } else
-        setSingleExpenseStatement({
-          ...singleExpenseStatement,
-          [category]: value,
-        });
+      setSingleExpenseStatement({
+        ...singleExpenseStatement,
+        [category]: value,
+      });
     }
   };
-  // console.log(singleIncomeStatement, singleExpenseStatement);
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -110,14 +96,10 @@ const IncomeExpenseBoard = () => {
     // Adding new data to the balance incomeSheet based on the tab
     if (tab === "income") {
       setIncomeSheet([...incomeSheet, newData]);
-      // e.form.reset();
     } else {
       setExpenseSheet([...expenseSheet, newData]);
-      // e.form.reset();
     }
   };
-
-  // console.log(incomeSheet);
 
   return (
     <main className="relative mx-auto mt-10 w-full max-w-7xl">
