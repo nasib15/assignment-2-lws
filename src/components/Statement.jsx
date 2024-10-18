@@ -33,6 +33,7 @@ const Statement = ({
   expenseSheet,
   onSort,
   onDelete,
+  onEdit,
 }) => {
   return (
     <div className="border rounded-md relative">
@@ -152,6 +153,7 @@ const Statement = ({
                 key={statement.id}
                 {...statement}
                 onDelete={onDelete}
+                onEdit={onEdit}
               />
             ))
           : expenseSheet.map((statement) => (
@@ -159,6 +161,7 @@ const Statement = ({
                 key={statement.id}
                 {...statement}
                 onDelete={onDelete}
+                onEdit={onEdit}
               />
             ))}
       </div>

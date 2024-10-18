@@ -61,6 +61,7 @@ const Form = ({
 
         <div className="mt-3">
           {/* Amount field */}
+          {/* Creating issue for getting state data dynamically for income/expense and that's why didn't use component */}
           <InputField
             name={tab === "expense" ? "expense" : "income"}
             type="number"
@@ -75,15 +76,30 @@ const Form = ({
 
         <div className="mt-3">
           {/* date field */}
-          <InputField
-            name="date"
-            type="date"
-            classNames="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
-            placeholder="12931"
-            onFormChange={onFormChange}
-            singleIncomeStatement={singleIncomeStatement}
-            singleExpenseStatement={singleExpenseStatement}
-          />
+          <label
+            htmlFor="date"
+            className="block text-sm font-medium leading-6 text-gray-900"
+          >
+            Date
+          </label>
+          <div className="mt-2">
+            <input
+              type="date"
+              name="date"
+              id="date"
+              autoComplete="off"
+              placeholder="12931"
+              value={
+                tab === "expense"
+                  ? singleExpenseStatement.date
+                  : singleIncomeStatement.date
+              }
+              onChange={(e) => {
+                onFormChange(e);
+              }}
+              className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-teal-600 sm:text-sm sm:leading-6"
+            />
+          </div>
         </div>
 
         <button

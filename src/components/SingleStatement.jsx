@@ -8,6 +8,7 @@ const SingleStatement = ({
   income = 0,
   expense = 0,
   onDelete,
+  onEdit,
 }) => {
   const confirmDelete = () => {
     const isConfirmed = window.confirm("Are you sure you want to delete?");
@@ -40,6 +41,7 @@ const SingleStatement = ({
             className="hover:text-teal-600 mr-1"
             role="button"
             title="Edit Button"
+            onClick={() => onEdit(id, tab)}
           >
             <EditSVG />
           </button>

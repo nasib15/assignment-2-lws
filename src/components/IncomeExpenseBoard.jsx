@@ -148,6 +148,39 @@ const IncomeExpenseBoard = () => {
     handleSort(isIncomeMenuOpen, isExpenseMenuOpen, sortingType);
   };
 
+  // Edit the data from the datasheet
+  const handleEdit = (id, category) => {
+    console.log(id, category);
+    if (category === "income") {
+      const data = incomeSheet.find((item) => item.id === id);
+      console.log(data);
+      setSingleIncomeStatement({ ...data });
+      setTab("income");
+      console.log(singleIncomeStatement);
+    }
+
+    if (category === "expense") {
+      const data = expenseSheet.find((item) => item.id === id);
+      console.log(data);
+      setSingleExpenseStatement({ ...data });
+      setTab("expense");
+      console.log(singleExpenseStatement);
+    }
+    // if (category === "income") {
+    //   const editedIncomeSheet = incomeSheet.map((item) =>
+    //     item.id === id ? { ...item, income: 5000 } : item
+    //   );
+    //   setIncomeSheet(editedIncomeSheet);
+    // }
+    // if (category === "expense") {
+    //   const editedExpenseSheet = expenseSheet.map((item) =>
+    //     item.id === id ? { ...item, expense: 500 } : item
+    //   );
+    //   setExpenseSheet(editedExpenseSheet);
+    // }
+  };
+
+  // Deleting the data from the datasheet
   const handleDelete = (id, category) => {
     if (category === "income") {
       const newIncomeSheet = incomeSheet.filter((item) => item.id !== id);
@@ -177,6 +210,7 @@ const IncomeExpenseBoard = () => {
           expenseSheet={expenseSheet}
           onSort={handleSortClick}
           onDelete={handleDelete}
+          onEdit={handleEdit}
         />
       </section>
     </main>

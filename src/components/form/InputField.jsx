@@ -9,9 +9,12 @@ const InputField = ({
   singleExpenseStatement,
 }) => {
   const getValue = () => {
+    console.log(name);
     if (name === "income") {
+      console.log(singleIncomeStatement[name]);
       return singleIncomeStatement[name];
     } else if (name === "expense") {
+      console.log(singleExpenseStatement[name]);
       return singleExpenseStatement[name];
     }
   };
@@ -35,11 +38,7 @@ const InputField = ({
           onChange={(e) => {
             onFormChange(e);
           }}
-          value={
-            name === "date"
-              ? singleIncomeStatement[name] || singleExpenseStatement[name]
-              : getValue()
-          }
+          value={getValue()}
           required
         />
       </div>
