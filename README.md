@@ -29,7 +29,7 @@
 1. **Clone the repository:**
 
    ```
-   git clone https://github.com/nasib15/assignment-2-lws
+   git clone https://github.com/nasib15/assignment-2-lws.git
    cd assignment-2-lws
    ```
 
